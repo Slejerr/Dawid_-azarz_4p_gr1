@@ -1,8 +1,8 @@
 ﻿using System;
 
-class Program
+public class Program
 {
-    static void Main(string[] args)
+    public static void Main(string[] args)
     {
         // Deklaracja i inicjalizacja nieposortowanej tablicy liczb całkowitych
         int[] numbers = { 64, 34, 25, 12, 22, 11, 90 };
@@ -20,8 +20,11 @@ class Program
     }
 
     // Metoda realizująca algorytm sortowania bąbelkowego
-    static void BubbleSort(int[] arr)
+    public static void BubbleSort(int[]? arr)
     {
+        // Obsługa braku tablicy (null)
+        if (arr == null) return;
+
         int n = arr.Length; // Pobranie długości przekazanej tablicy
 
         // Pętla zewnętrzna - odpowiada za liczbę przejść przez całą tablicę
@@ -41,7 +44,7 @@ class Program
     }
 
     // Metoda pomocnicza do zamiany miejscami dwóch elementów w tablicy
-    static void Swap(int[] arr, int i, int j)
+    public static void Swap(int[] arr, int i, int j)
     {
         int temp = arr[i]; // Zapisanie wartości pierwszego elementu w zmiennej tymczasowej
         arr[i] = arr[j];   // Przypisanie wartości drugiego elementu w miejsce pierwszego
@@ -49,13 +52,12 @@ class Program
     }
 
     // Metoda pomocnicza do wypisywania elementów tablicy w konsoli
-    static void PrintArray(int[] arr)
+    public static void PrintArray(int[] arr)
     {
-        // Pętla iterująca po każdym elemencie tablicy
-        foreach (var item in arr)
+        foreach (int item in arr)
         {
-            Console.Write(item + " "); // Wyświetlenie elementu ze spacją
+            Console.Write(item + " ");
         }
-        Console.WriteLine(); // Prjście do nowej linii po wyświetleniu całej tablicy
+        Console.WriteLine();
     }
 }
