@@ -4,60 +4,61 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        // Deklaracja i inicjalizacja nieposortowanej tablicy liczb całkowitych
+        // Tworzymy przykładową nieposortowaną tablicę liczb całkowitych
         int[] numbers = { 64, 34, 25, 12, 22, 11, 90 };
 
-        // Wyświetlenie elementów tablicy przed rozpoczęciem procesów sortowania
+        // Wyświetlamy stan tablicy przed wykonaniem algorytmu
         Console.WriteLine("Tablica przed sortowaniem:");
         PrintArray(numbers);
 
-        // Wywołanie metody sortującej przekazując naszą tablicę
+        // Wywołujemy naszą metodę sortującą
         BubbleSort(numbers);
 
-        // Wyświetlenie posortowanej tablicy
+        // Wyświetlamy wynik po posortowaniu
         Console.WriteLine("Tablica po sortowaniu:");
         PrintArray(numbers);
     }
 
-    // Metoda realizująca algorytm sortowania bąbelkowego
-    public static void BubbleSort(int[]? arr)
+    public static void BubbleSort(int[] array)
     {
-        // Obsługa braku tablicy (null)
-        if (arr == null) return;
+        // WARUNEK BEZPIECZEŃSTWA: Jeśli tablica jest null lub nie ma elementów, natychmiast kończymy
+        if (array == null || array.Length == 0) return;
 
-        int n = arr.Length; // Pobranie długości przekazanej tablicy
+        // WALIDACJA (Test negatywny): Ograniczenie rozmiaru tablicy do 1000 elementów.
+        // Przekroczenie tego limitu wyrzuci wyjątek ArgumentException.
+        if (array.Length > 1000)
+        {
+            throw new ArgumentException("Tablica jest zbyt duża do sortowania bąbelkowego!");
+        }
 
-        // Pętla zewnętrzna - odpowiada za liczbę przejść przez całą tablicę
+        int n = array.Length;
+
+        // PĘTLA ZEWNĘTRZNA: Określa liczbę przejść przez tablicę (max n - 1 razy).
+        // Liczymy od 0, więc dla 5 elementów wykona przejścia dla i = 0, 1, 2, 3 (łącznie 4 razy).
         for (int i = 0; i < n - 1; i++)
         {
-            // Pętla wewnętrzna - porównuje sąsiadujące ze sobą elementy
+            // PĘTLA WEWNĘTRZNA: Porównuje sąsiadujące ze sobą elementy.
+            // Odejmujemy 'i', ponieważ po każdym przejściu kolejny największy element stoi już na swoim miejscu na końcu.
+            // Odejmujemy '1', aby nie wyjść poza zakres tablicy przy odwołaniu do array[j + 1].
             for (int j = 0; j < n - i - 1; j++)
             {
-                // Sprawdzenie, czy element po lewej jest większy od elementu po prawej
-                if (arr[j] > arr[j + 1])
+                // Jeśli lewy element jest większy od prawego, zamieniamy je miejscami (wypychamy większą liczbę w prawo)
+                if (array[j] > array[j + 1])
                 {
-                    // Jeśli tak, zamieniamy je miejscami za pomocą funkcji pomocniczej Swap
-                    Swap(arr, j, j + 1);
+                    int temp = array[j];       // KROK 1: Chwilowo zapisujemy wartość z lewej komórki w zmiennej tymczasowej
+                    array[j] = array[j + 1];   // KROK 2: Nadpisujemy lewą komórkę wartością z prawej komórki
+                    array[j + 1] = temp;       // KROK 3: Prawa komórka otrzymuje starą wartość lewej komórki przechowaną w temp
                 }
             }
         }
     }
 
-    // Metoda pomocnicza do zamiany miejscami dwóch elementów w tablicy
-    public static void Swap(int[] arr, int i, int j)
+    public static void PrintArray(int[] array)
     {
-        int temp = arr[i]; // Zapisanie wartości pierwszego elementu w zmiennej tymczasowej
-        arr[i] = arr[j];   // Przypisanie wartości drugiego elementu w miejsce pierwszego
-        arr[j] = temp;     // Przypisanie zapamiętanej wartości ze zmiennej tymczasowej do drugiego elementu
-    }
+        // Zabezpieczenie przed błędem w przypadku braku tablicy
+        if (array == null) return;
 
-    // Metoda pomocnicza do wypisywania elementów tablicy w konsoli
-    public static void PrintArray(int[] arr)
-    {
-        foreach (int item in arr)
-        {
-            Console.Write(item + " ");
-        }
-        Console.WriteLine();
+        // string.Join automatycznie łączy elementy tablicy w jeden tekst oddzielony przecinkami
+        Console.WriteLine(string.Join(", ", array));
     }
 }
